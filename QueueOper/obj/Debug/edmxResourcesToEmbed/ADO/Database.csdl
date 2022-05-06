@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QueueModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Operation">
+    <Key>
+      <PropertyRef Name="Id_oper" />
+    </Key>
+    <Property Name="Id_oper" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="90" FixedLength="false" Unicode="true" />
+    <Property Name="Cost" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="QueueElement" Relationship="Self.FK_QueueElement_Operation1" FromRole="Operation" ToRole="QueueElement" />
+  </EntityType>
+  <EntityType Name="Queue">
+    <Key>
+      <PropertyRef Name="Id_q" />
+    </Key>
+    <Property Name="Id_q" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="QueueElement" Relationship="Self.FK_QueueElement_Queue" FromRole="Queue" ToRole="QueueElement" />
+  </EntityType>
+  <EntityType Name="QueueElement">
+    <Key>
+      <PropertyRef Name="Id_el" />
+    </Key>
+    <Property Name="Id_el" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id_q" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Id_status" Type="Int32" />
+    <Property Name="Id_oper" Type="Int32" />
+    <Property Name="Id_window" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Operation" Relationship="Self.FK_QueueElement_Operation1" FromRole="QueueElement" ToRole="Operation" />
+    <NavigationProperty Name="Queue" Relationship="Self.FK_QueueElement_Queue" FromRole="QueueElement" ToRole="Queue" />
+    <NavigationProperty Name="Status" Relationship="Self.FK_QueueElement_Status" FromRole="QueueElement" ToRole="Status" />
+    <NavigationProperty Name="Window_" Relationship="Self.FK_QueueElement_Window" FromRole="QueueElement" ToRole="Window_" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id_role" />
+    </Key>
+    <Property Name="Id_role" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="User" Relationship="QueueModel.FK_User_Role" FromRole="Role" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="Id_status" />
+    </Key>
+    <Property Name="Id_status" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="QueueElement" Relationship="Self.FK_QueueElement_Status" FromRole="Status" ToRole="QueueElement" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Window_">
+    <Key>
+      <PropertyRef Name="Id_window" />
+    </Key>
+    <Property Name="Id_window" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Purpose" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="QueueElement" Relationship="Self.FK_QueueElement_Window" FromRole="Window_" ToRole="QueueElement" />
+  </EntityType>
+  <Association Name="FK_QueueElement_Operation1">
+    <End Role="Operation" Type="Self.Operation" Multiplicity="0..1" />
+    <End Role="QueueElement" Type="Self.QueueElement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Operation">
+        <PropertyRef Name="Id_oper" />
+      </Principal>
+      <Dependent Role="QueueElement">
+        <PropertyRef Name="Id_oper" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QueueElement_Queue">
+    <End Role="Queue" Type="Self.Queue" Multiplicity="0..1" />
+    <End Role="QueueElement" Type="Self.QueueElement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Queue">
+        <PropertyRef Name="Id_q" />
+      </Principal>
+      <Dependent Role="QueueElement">
+        <PropertyRef Name="Id_q" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QueueElement_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+    <End Role="QueueElement" Type="Self.QueueElement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="Id_status" />
+      </Principal>
+      <Dependent Role="QueueElement">
+        <PropertyRef Name="Id_status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QueueElement_Window">
+    <End Role="Window_" Type="Self.Window_" Multiplicity="0..1" />
+    <End Role="QueueElement" Type="Self.QueueElement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Window_">
+        <PropertyRef Name="Id_window" />
+      </Principal>
+      <Dependent Role="QueueElement">
+        <PropertyRef Name="Id_window" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="connection" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Operation" EntityType="Self.Operation" />
+    <EntitySet Name="Queue" EntityType="Self.Queue" />
+    <EntitySet Name="QueueElement" EntityType="Self.QueueElement" />
+    <EntitySet Name="Role" EntityType="Self.Role" />
+    <EntitySet Name="Status" EntityType="Self.Status" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Window_" EntityType="Self.Window_" />
+    <AssociationSet Name="FK_QueueElement_Operation1" Association="Self.FK_QueueElement_Operation1">
+      <End Role="Operation" EntitySet="Operation" />
+      <End Role="QueueElement" EntitySet="QueueElement" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QueueElement_Queue" Association="Self.FK_QueueElement_Queue">
+      <End Role="Queue" EntitySet="Queue" />
+      <End Role="QueueElement" EntitySet="QueueElement" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QueueElement_Status" Association="Self.FK_QueueElement_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="QueueElement" EntitySet="QueueElement" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QueueElement_Window" Association="Self.FK_QueueElement_Window">
+      <End Role="Window_" EntitySet="Window_" />
+      <End Role="QueueElement" EntitySet="QueueElement" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(QueueModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(QueueModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <EntitySet Name="User" EntityType="QueueModel.User" />
+    <AssociationSet Name="FK_User_Role" Association="QueueModel.FK_User_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+    <EntitySet Name="Employee" EntityType="QueueModel.Employee" />
+    <AssociationSet Name="FK_Employee_User" Association="QueueModel.FK_Employee_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Employee" EntitySet="Employee" />
+    </AssociationSet>
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id_user" />
+    </Key>
+    <Property Name="Id_user" Type="Int32" Nullable="false" />
+    <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Id_role" Type="Int32" />
+    <NavigationProperty Name="Role" Relationship="QueueModel.FK_User_Role" FromRole="User" ToRole="Role" />
+    <NavigationProperty Name="Employee" Relationship="QueueModel.FK_Employee_User" FromRole="User" ToRole="Employee" />
+  </EntityType>
+  <Association Name="FK_User_Role">
+    <End Type="QueueModel.Role" Role="Role" Multiplicity="0..1" />
+    <End Type="QueueModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="Id_role" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="Id_role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="Id_empl" />
+    </Key>
+    <Property Name="Id_empl" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Image_link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="User" Relationship="QueueModel.FK_Employee_User" FromRole="Employee" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_Employee_User">
+    <End Type="QueueModel.User" Role="User" Multiplicity="1" />
+    <End Type="QueueModel.Employee" Role="Employee" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id_user" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="Id_empl" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

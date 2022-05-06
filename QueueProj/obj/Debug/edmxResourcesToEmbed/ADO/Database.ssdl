@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище QueueModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="Id_empl" />
+    </Key>
+    <Property Name="Id_empl" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Surname" Type="nvarchar" MaxLength="50" />
+    <Property Name="Patronymic" Type="nvarchar" MaxLength="50" />
+    <Property Name="Image_link" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Operation">
+    <Key>
+      <PropertyRef Name="Id_oper" />
+    </Key>
+    <Property Name="Id_oper" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="90" />
+    <Property Name="Cost" Type="money" />
+  </EntityType>
+  <EntityType Name="Queue">
+    <Key>
+      <PropertyRef Name="Id_q" />
+    </Key>
+    <Property Name="Id_q" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date" Type="date" />
+  </EntityType>
+  <EntityType Name="QueueElement">
+    <Key>
+      <PropertyRef Name="Id_el" />
+    </Key>
+    <Property Name="Id_el" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_q" Type="int" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Id_status" Type="int" />
+    <Property Name="Id_oper" Type="int" />
+    <Property Name="Id_window" Type="varchar" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id_role" />
+    </Key>
+    <Property Name="Id_role" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="Id_status" />
+    </Key>
+    <Property Name="Id_status" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id_user" />
+    </Key>
+    <Property Name="Id_user" Type="int" Nullable="false" />
+    <Property Name="Login" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="Id_role" Type="int" />
+  </EntityType>
+  <EntityType Name="Window_">
+    <Key>
+      <PropertyRef Name="Id_window" />
+    </Key>
+    <Property Name="Id_window" Type="varchar" MaxLength="1" Nullable="false" />
+    <Property Name="Purpose" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK_Employee_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id_user" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="Id_empl" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QueueElement_Operation1">
+    <End Role="Operation" Type="Self.Operation" Multiplicity="0..1" />
+    <End Role="QueueElement" Type="Self.QueueElement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Operation">
+        <PropertyRef Name="Id_oper" />
+      </Principal>
+      <Dependent Role="QueueElement">
+        <PropertyRef Name="Id_oper" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QueueElement_Queue">
+    <End Role="Queue" Type="Self.Queue" Multiplicity="0..1" />
+    <End Role="QueueElement" Type="Self.QueueElement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Queue">
+        <PropertyRef Name="Id_q" />
+      </Principal>
+      <Dependent Role="QueueElement">
+        <PropertyRef Name="Id_q" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QueueElement_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+    <End Role="QueueElement" Type="Self.QueueElement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="Id_status" />
+      </Principal>
+      <Dependent Role="QueueElement">
+        <PropertyRef Name="Id_status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QueueElement_Window">
+    <End Role="Window_" Type="Self.Window_" Multiplicity="0..1" />
+    <End Role="QueueElement" Type="Self.QueueElement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Window_">
+        <PropertyRef Name="Id_window" />
+      </Principal>
+      <Dependent Role="QueueElement">
+        <PropertyRef Name="Id_window" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="Id_role" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="Id_role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="Хранилище QueueModelContainer">
+    <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Operation" EntityType="Self.Operation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Queue" EntityType="Self.Queue" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QueueElement" EntityType="Self.QueueElement" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Window_" EntityType="Self.Window_" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Employee_User" Association="Self.FK_Employee_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Employee" EntitySet="Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QueueElement_Operation1" Association="Self.FK_QueueElement_Operation1">
+      <End Role="Operation" EntitySet="Operation" />
+      <End Role="QueueElement" EntitySet="QueueElement" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QueueElement_Queue" Association="Self.FK_QueueElement_Queue">
+      <End Role="Queue" EntitySet="Queue" />
+      <End Role="QueueElement" EntitySet="QueueElement" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QueueElement_Status" Association="Self.FK_QueueElement_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="QueueElement" EntitySet="QueueElement" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QueueElement_Window" Association="Self.FK_QueueElement_Window">
+      <End Role="Window_" EntitySet="Window_" />
+      <End Role="QueueElement" EntitySet="QueueElement" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7b892baa0a774f1690da410867acea0d" Name="Diagram1">
+        <EntityTypeShape EntityType="QueueModel.Operation" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QueueModel.Queue" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QueueModel.QueueElement" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="QueueModel.Role" Width="1.5" PointX="2.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QueueModel.Status" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QueueModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QueueModel.Window_" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
+        <AssociationConnector Association="QueueModel.FK_QueueElement_Operation1" ManuallyRouted="false" />
+        <AssociationConnector Association="QueueModel.FK_QueueElement_Queue" ManuallyRouted="false" />
+        <AssociationConnector Association="QueueModel.FK_QueueElement_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="QueueModel.FK_QueueElement_Window" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="QueueModel.User" Width="1.5" PointX="5" PointY="5" />
+        <AssociationConnector Association="QueueModel.FK_User_Role" />
+        <EntityTypeShape EntityType="QueueModel.Employee" Width="1.5" PointX="7.25" PointY="5" />
+        <AssociationConnector Association="QueueModel.FK_Employee_User" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

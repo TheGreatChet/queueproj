@@ -1,0 +1,184 @@
+﻿<Page x:Class="QueueProj.Pages.QueueMainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:QueueProj.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="QueueMainPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock x:Name="FirstWindowEmptLbl"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Visibility="Hidden"
+                   TextWrapping="Wrap"
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   Text="Пустая очередь"/>
+
+        <TextBlock x:Name="SecondWindowEmptLbl"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Visibility="Hidden"
+                   TextWrapping="Wrap"
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   Text="Пустая очередь"/>
+
+        <TextBlock x:Name="ThirdWindowEmptLbl"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Visibility="Hidden"
+                   TextWrapping="Wrap"
+                   Grid.Row="1"
+                   Grid.Column="2"
+                   Text="Пустая очередь"/>
+
+        <Label Grid.Row="0"
+               Grid.Column="1"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               VerticalContentAlignment="Center"
+               Content="Очередь"
+               FontSize="25"/>
+
+        <ListView x:Name="WindowOneLw"
+                  Grid.Row="1"
+                  Grid.Column="0">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical"
+                    Grid.Row="2">
+                        <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Width="200"
+                        Height="100"
+                        Margin="5">
+                            <Label FontSize="45"
+                                   Content="{Binding Id_el}"
+                                   Margin="5"
+                                   Width="75"
+                                   Height="75"/>
+                            <StackPanel Orientation="Vertical">
+                                <Label FontSize="15"
+                                           Content="{Binding Name}"
+                                           Margin="10"/>
+
+                                <Label FontSize="15"
+                                           Content="{Binding Status.Name}"
+                                           Margin="10"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+
+            </ListView.ItemTemplate>
+
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="1" 
+                  Background="WhiteSmoke"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+
+        <ListView x:Name="WindowTwoLw"
+                  Grid.Row="1"
+                  Grid.Column="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical"
+                                Grid.Row="2">
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Width="200"
+                                    Height="100"
+                                    Margin="5">
+                            <Label FontSize="45"
+                                   Content="{Binding Id_el}"
+                                   Margin="5"
+                                   Width="75"
+                                   Height="75"/>
+                            <StackPanel Orientation="Vertical">
+                                <Label FontSize="15"
+                                           Content="{Binding Name}"
+                                           Margin="10"/>
+
+                                <Label FontSize="15"
+                                           Content="{Binding Status.Name}"
+                                           Margin="10"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="1"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+
+        <ListView x:Name="WindowThreeeLw"
+                  Grid.Row="1"
+                  Grid.Column="2">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical"
+                                Grid.Row="2">
+                        <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Width="200"
+                        Height="100"
+                        Margin="5">
+                            <Label FontSize="45"
+                                   Content="{Binding Id_el}"
+                                   Margin="5"
+                                   Width="75"
+                                   Height="75"/>
+                            <StackPanel Orientation="Vertical">
+                                <Label FontSize="15"
+                                           Content="{Binding Name}"
+                                           Margin="10"/>
+
+                                <Label FontSize="15"
+                                           Content="{Binding Status.Name}"
+                                           Margin="10"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="1"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+
+        <Button Grid.Column="1"
+                Grid.Row="2"
+                Width="120"
+                x:Name="SignBtn"
+                Content="Записаться" Click="SignBtn_Click"/>
+    </Grid>
+</Page>
